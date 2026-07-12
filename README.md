@@ -1,6 +1,8 @@
 # تقویم شمسی مستقل (Persian Calendar Standalone)
 
-![نمای کلی تقویم](assets/preview.png)
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20Demo-6366f1?style=for-the-badge)](https://singular-rugelach-d4312d.netlify.app/)
+
+[![نمای کلی تقویم](assets/preview.png)](https://singular-rugelach-d4312d.netlify.app/)
 
 یک کتابخانه جاوااسکریپت خالص (Vanilla JS)، سبک، مدرن و بدون هیچ وابستگی خارجی (Zero Dependencies) برای رندر کردن تقویم فارسی و شمسی به همراه قابلیت انتخاب زمان (ساعت و دقیقه)، اعمال محدودیت‌های تاریخی، تم تاریک و نمایش به صورت پاپ‌اور روی فیلدهای متنی ورودی فرم.
 
