@@ -1,0 +1,467 @@
+/**
+ * Persian Calendar Standalone Stylesheet
+ * Premium, modern, and accessible design
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap');
+
+:root {
+  --pc-font: 'Vazirmatn', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --pc-bg: #ffffff;
+  --pc-text: #0f172a;
+  --pc-text-muted: #64748b;
+  --pc-primary: #4f46e5;
+  --pc-primary-hover: #4338ca;
+  --pc-primary-light: #eef2ff;
+  --pc-border: #e2e8f0;
+  --pc-border-hover: #cbd5e1;
+  --pc-radius-lg: 16px;
+  --pc-radius-md: 10px;
+  --pc-radius-sm: 6px;
+  --pc-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 8px 16px -6px rgba(0, 0, 0, 0.06);
+  --pc-shadow-popover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --pc-day-size: 38px;
+  --pc-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Theme Variables */
+.persian-calendar-dark {
+  --pc-bg: #0f172a;
+  --pc-text: #f8fafc;
+  --pc-text-muted: #94a3b8;
+  --pc-primary: #6366f1;
+  --pc-primary-hover: #4f46e5;
+  --pc-primary-light: rgba(99, 102, 241, 0.15);
+  --pc-border: #1e293b;
+  --pc-border-hover: #334155;
+  --pc-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 8px 16px -6px rgba(0, 0, 0, 0.2);
+  --pc-shadow-popover: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Base Wrapper styling */
+.persian-calendar-wrapper,
+.persian-calendar-wrapper * {
+  box-sizing: border-box;
+  font-family: var(--pc-font);
+}
+
+.persian-calendar-wrapper {
+  background: var(--pc-bg);
+  color: var(--pc-text);
+  font-size: 14px;
+  direction: rtl;
+  text-align: right;
+  border: 1px solid var(--pc-border);
+  border-radius: var(--pc-radius-lg);
+  padding: 20px;
+  box-shadow: var(--pc-shadow);
+  width: 100%;
+  max-width: 350px;
+  user-select: none;
+  transition: var(--pc-transition);
+}
+
+/* Standalone Popover Mode */
+.persian-calendar-popover {
+  position: absolute;
+  z-index: 99999;
+  box-shadow: var(--pc-shadow-popover);
+  display: none;
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.persian-calendar-popover.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Header Section */
+.persian-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--pc-border);
+  padding-bottom: 12px;
+}
+
+.persian-calendar-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pc-text);
+  margin: 0;
+}
+
+.persian-calendar-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.persian-calendar-now-btn {
+  background: var(--pc-primary-light);
+  border: none;
+  color: var(--pc-primary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: var(--pc-radius-sm);
+  transition: var(--pc-transition);
+}
+
+.persian-calendar-now-btn:hover {
+  background-color: var(--pc-primary);
+  color: #ffffff;
+}
+
+.persian-calendar-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  color: var(--pc-text-muted);
+  transition: var(--pc-transition);
+}
+
+.persian-calendar-close-btn:hover {
+  background: var(--pc-border);
+  color: var(--pc-text);
+}
+
+.persian-calendar-close-btn svg {
+  fill: currentColor;
+  width: 18px;
+  height: 18px;
+}
+
+/* Time Picker Section */
+.persian-calendar-time-title,
+.persian-calendar-date-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pc-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.persian-calendar-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.persian-calendar-time-inputs {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--pc-border);
+  border-radius: var(--pc-radius-sm);
+  background: var(--pc-bg);
+  padding: 4px 6px;
+  direction: ltr;
+  transition: var(--pc-transition);
+}
+
+.persian-calendar-time-inputs:focus-within {
+  border-color: var(--pc-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.persian-calendar-time-inputs span {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--pc-text);
+  margin: 0 2px;
+}
+
+input.persian-calendar-hour,
+input.persian-calendar-minute {
+  width: 28px;
+  border: none !important;
+  padding: 0 !important;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--pc-text);
+  background: transparent;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.persian-calendar-hour::-webkit-outer-spin-button,
+.persian-calendar-hour::-webkit-inner-spin-button,
+.persian-calendar-minute::-webkit-outer-spin-button,
+.persian-calendar-minute::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Date Picker Form Header */
+.persian-calendar-date-picker {
+  display: flex;
+  flex-direction: column;
+}
+
+.persian-calendar-month-year {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.persian-calendar-day-display,
+.persian-calendar-year-display,
+select.persian-calendar-month {
+  box-sizing: border-box;
+  color: var(--pc-text);
+  background-color: var(--pc-bg);
+  border: 1px solid var(--pc-border);
+  border-radius: var(--pc-radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 8px;
+  height: 36px;
+  outline: none;
+  transition: var(--pc-transition);
+}
+
+.persian-calendar-day-display:focus,
+.persian-calendar-year-display:focus,
+select.persian-calendar-month:focus {
+  border-color: var(--pc-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.persian-calendar-day-display {
+  width: 42px;
+  text-align: center;
+}
+
+select.persian-calendar-month {
+  flex: 1;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 8px center;
+  background-size: 14px;
+  padding-left: 28px;
+}
+
+.persian-calendar-year-display {
+  width: 64px;
+  text-align: center;
+}
+
+/* Nav Bar */
+.persian-calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  margin-bottom: 8px;
+}
+
+.persian-calendar-prev,
+.persian-calendar-next {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--pc-border);
+  background: var(--pc-bg);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pc-text-muted);
+  transition: var(--pc-transition);
+}
+
+.persian-calendar-prev:hover,
+.persian-calendar-next:hover {
+  background-color: var(--pc-primary-light);
+  color: var(--pc-primary);
+  border-color: var(--pc-primary);
+}
+
+.persian-calendar-current-month {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--pc-text);
+  text-align: center;
+  flex: 1;
+}
+
+/* Calendar Grid */
+.persian-calendar-grid {
+  margin-top: 8px;
+}
+
+.persian-calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--pc-border);
+  padding-bottom: 6px;
+}
+
+.persian-calendar-weekday {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pc-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--pc-day-size);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+
+.persian-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.persian-calendar-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  max-width: var(--pc-day-size);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  transition: var(--pc-transition);
+}
+
+.persian-calendar-day:not(.empty):not(.disabled):hover {
+  background-color: var(--pc-primary-light);
+  color: var(--pc-primary);
+}
+
+.persian-calendar-day.today {
+  background-color: var(--pc-border);
+  color: var(--pc-text);
+  font-weight: 700;
+}
+
+.persian-calendar-day.selected {
+  background-color: var(--pc-primary) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+
+.persian-calendar-day.empty {
+  cursor: default;
+  pointer-events: none;
+}
+
+.persian-calendar-day.disabled {
+  color: var(--pc-border-hover) !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  opacity: 0.4;
+  background: transparent !important;
+}
+
+/* Range Picker Strip styling */
+.persian-calendar-day.in-range {
+  background-color: var(--pc-primary-light) !important;
+  color: var(--pc-primary) !important;
+  border-radius: 0 !important;
+}
+
+.persian-calendar-day.range-start {
+  background-color: var(--pc-primary) !important;
+  color: #ffffff !important;
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.persian-calendar-day.range-end {
+  background-color: var(--pc-primary) !important;
+  color: #ffffff !important;
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.persian-calendar-day.range-start.range-end {
+  border-radius: 50% !important;
+}
+
+/* Floating Input Integration Helper */
+.pc-input-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.pc-input-field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px 10px 38px;
+  font-family: var(--pc-font);
+  font-size: 14px;
+  border: 1px solid var(--pc-border);
+  border-radius: var(--pc-radius-md);
+  color: var(--pc-text);
+  background-color: var(--pc-bg);
+  outline: none;
+  transition: var(--pc-transition);
+}
+
+.pc-input-field:focus {
+  border-color: var(--pc-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.pc-input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--pc-text-muted);
+  pointer-events: none;
+  transition: var(--pc-transition);
+}
+
+.pc-input-field:focus + .pc-input-icon {
+  color: var(--pc-primary);
+}
+
+/* Responsiveness overrides */
+@media (max-width: 360px) {
+  .persian-calendar-wrapper {
+    padding: 14px;
+    --pc-day-size: 32px;
+  }
+}
