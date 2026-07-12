@@ -5,13 +5,13 @@
 ---
 
 ## ویژگی‌های برجسته
-- 🚀 **بدون وابستگی**: ساخته شده با جاوااسکریپت خالص بدون نیاز به جی‌کوئری (jQuery)، بوت‌استرپ یا Moment.js.
-- 🕒 **پشتیبانی از زمان**: انتخاب راحت ساعت و دقیقه به همراه تقویم.
-- 🎨 **سفارشی‌سازی آسان**: استایل‌دهی مدرن با استفاده از متغیرهای CSS (CSS Custom Properties).
-- 🌓 **تم تاریک پیش‌فرض**: سوئیچ خودکار بین حالت روشن و تاریک با پاس دادن یک آپشن.
-- 📱 **کاملاً واکنش‌گرا**: نمایش بهینه‌سازی شده در صفحات نمایش موبایل و دسکتاپ.
-- 🔒 **محدودیت زمانی**: پشتیبانی از تاریخ‌های حداقل (`minDate`) و حداکثر (`maxDate`).
-- ✍️ **فرمت‌های مختلف**: امکان نمایش اعداد به صورت فارسی یا انگلیسی (ASCII) و فرمت‌بندی خروجی دلخواه.
+- **بدون وابستگی**: ساخته شده با جاوااسکریپت خالص بدون نیاز به جی‌کوئری (jQuery)، بوت‌استرپ یا Moment.js.
+- **پشتیبانی از زمان**: انتخاب راحت ساعت و دقیقه به همراه تقویم.
+- **سفارشی‌سازی آسان**: استایل‌دهی مدرن با استفاده از متغیرهای CSS (CSS Custom Properties).
+- **تم تاریک پیش‌فرض**: سوئیچ خودکار بین حالت روشن و تاریک با پاس دادن یک آپشن.
+- **کاملاً واکنش‌گرا**: نمایش بهینه‌سازی شده در صفحات نمایش موبایل و دسکتاپ.
+- **محدودیت زمانی**: پشتیبانی از تاریخ‌های حداقل (`minDate`) و حداکثر (`maxDate`).
+- **فرمت‌های مختلف**: امکان نمایش اعداد به صورت فارسی یا انگلیسی (ASCII) و فرمت‌بندی خروجی دلخواه.
 
 ---
 
@@ -106,23 +106,53 @@ new PersianCalendar(document.getElementById('picker-custom'), {
 ```
 
 ### ۷. انتخاب بازه تاریخ رفت و برگشت (Range Picker)
-اتصال دو فیلد تاریخ به یکدیگر. انتخاب تاریخ رفت، حداقل تاریخ فیلد برگشت را به صورت پویا تغییر می‌دهد:
+اتصال دو فیلد تاریخ به یکدیگر. انتخاب تاریخ رفت، نوار هایلایت بازه را ترسیم می‌کند، تاریخ برگشت قبلی را ریست کرده و فیلد برگشت را به طور خودکار باز می‌کند:
 
 ```javascript
+let startDateVal = null;
+let endDateVal = null;
+
 const startPicker = new PersianCalendar(document.getElementById('picker-start'), {
   showTime: false,
   onDateSelect: (data) => {
-    // تغییر پویای حداقل تاریخ پایان به تاریخ شروع انتخاب شده
-    endPicker.setOptions({ minDate: data.date });
+    startDateVal = data.date;
+    // ریست کردن تاریخ برگشت در صورت تغییر تاریخ رفت
+    endDateVal = null;
+    document.getElementById('picker-end').value = '';
+    
+    startPicker.setOptions({ rangeStart: startDateVal, rangeEnd: endDateVal });
+    endPicker.setOptions({ minDate: startDateVal, rangeStart: startDateVal, rangeEnd: endDateVal });
+    
+    // باز کردن خودکار تقویم برگشت
+    setTimeout(() => {
+      endPicker.open();
+    }, 200);
   }
 });
 
 const endPicker = new PersianCalendar(document.getElementById('picker-end'), {
-  showTime: false
+  showTime: false,
+  onDateSelect: (data) => {
+    endDateVal = data.date;
+    startPicker.setOptions({ rangeStart: startDateVal, rangeEnd: endDateVal });
+    endPicker.setOptions({ rangeStart: startDateVal, rangeEnd: endDateVal });
+  }
 });
 ```
 
-### ۸. غیرفعال کردن روزهای خاص (مثال: جمعه‌ها تعطیل)
+### ۸. نمایش خوانا به کاربر و ذخیره فرمت استاندارد (altInput)
+جدا کردن مقدار نمایشی فیلد برای کاربر (مانند "شنبه، ۱۲ مرداد ۱۴۰۲") از مقدار ارسالی به سرور (مانند "1402-05-12"):
+
+```javascript
+new PersianCalendar(document.getElementById('my-input'), {
+  showTime: true,
+  altInput: true, // فعال کردن فیلد نمایشی مجزا
+  dateFormat: 'YYYY-MM-DD HH:mm', // فرمتی که به دیتابیس ارسال می‌شود
+  persianDigits: true
+});
+```
+
+### ۹. غیرفعال کردن روزهای خاص (مثال: جمعه‌ها تعطیل)
 با استفاده از تابع `filterDate` می‌توان هر روز خاصی را فیلتر و غیرفعال کرد:
 
 ```javascript
@@ -229,5 +259,5 @@ const dateObj = calendar.getSelectedDate();
 
 این پروژه به صورت متن‌باز منتشر شده است. برای ثبت گزارش خطا، پیشنهاد ویژگی جدید یا مشارکت در توسعه، می‌توانید به مخزن گیت‌هاب مراجعه کنید:
 
-🔗 **مخزن گیت‌هاب:** [vanilla-persian-calendar](https://github.com/mohammadr3z/vanilla-persian-calendar)
-👤 **توسعه‌دهنده:** [@mohammadr3z](https://github.com/mohammadr3z)
+**مخزن گیت‌هاب:** [vanilla-persian-calendar](https://github.com/mohammadr3z/vanilla-persian-calendar)
+**توسعه‌دهنده:** [@mohammadr3z](https://github.com/mohammadr3z)
